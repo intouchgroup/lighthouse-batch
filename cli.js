@@ -4,6 +4,8 @@ const exec = require('child_process').exec;
 const program = require('commander');
 const { blue, green, red, yellow, cyan, magenta, white } = require('chalk');
 
+const REPORT_FILENAME_SUFFIX_DEFAULT = 'lighthouse';
+
 const picture = () => (`
                   ${red(`.n.`)}                     ${yellow(`|`)}
                  ${red(`/___\\`)}          ${white(`_.---.`)}${yellow(`  \\ _ /`)}
@@ -21,13 +23,19 @@ const picture = () => (`
 `);
 
 program
-    .version('0.0.1')
     .option('-s, --sites <urls>', 'Comma-delimited list of URLs to audit', urls => urls.split(','), [])
     .option('-t, --html', 'Generates HTML reports')
     .option('-c, --csv', 'Generates CSV reports')
     .option('-p, --params <values>', 'Quoted string of params to pass to Lighthouse CLI', '', '')
     .option('-v, --verbose', 'Enables verbose logging')
     .parse(process.argv);
+
+const generateReportFilename = (url, fileExtension) => {
+    const urlName = url.replace(/^https?:\/\//, '').replace(/[\/\?#:\*\$@\!\.]/g, '_');
+    const today = new Date();
+    const timestamp = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}-${today.getHours()}${today.getMinutes()}${today.getSeconds()}`;
+    return `${timestamp}_${urlName}${urlName.charAt(urlName.length - 1) === '_' ? '' : '_'}${REPORT_FILENAME_SUFFIX_DEFAULT}.${fileExtension}`;
+};
 
 const init = () => {
     console.log(picture());
@@ -46,9 +54,9 @@ const init = () => {
         console.log(white(`    Generating report types:\n    ---------------------------------------------------\n    ${green('✓')} JSON    ${html ? green('✓') : red('x')} HTML    ${csv ? green('✓') : red('x')} CSV\n\n\n    Processing ${cyan(sites.length)} URLs: \n    ---------------------------------------------------`));
         sites.map((url, index) => {
             url = url.match(/^https?:/) ? url : !url.startsWith('//') ? `https://${url}` : `https${url}`;
-            const name = url.replace(/^https?:\/\//, '').replace(/[\/\?#:\*\$@\!\.]/g, '_');
-            console.log(`    ${cyan(`${index + 1}.`)} ${white(`${name} - ${url}`)}`);
-            const command = `"${url}" --output json ${html ? 'html' : ' '} ${csv ? 'csv' : ' '} --output-path=./${name}.report.json ${verbose ? '' : '--quiet'} --chrome-flags="--headless" ${params}`;
+            const reportName = generateReportFilename(url, 'json');
+            console.log(`    ${cyan(`${index + 1}.`)} ${white(`${reportName} - ${url}`)}`);
+            const command = `"${url}" --output json ${html ? 'html' : ' '} ${csv ? 'csv' : ' '} --output-path=./${reportName} ${verbose ? '' : '--quiet'} --chrome-flags="--headless" ${params}`;
             exec(`lighthouse ${command}`);
         });
         console.log(cyan('\n\n    Please wait for reports to complete...\n'));
