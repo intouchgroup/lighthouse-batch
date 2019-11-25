@@ -27,6 +27,7 @@ program
     .option('-t, --html', 'Generates HTML reports')
     .option('-c, --csv', 'Generates CSV reports')
     .option('-p, --params <values>', 'Quoted string of params to pass to Lighthouse CLI', '', '')
+    .option('-f, --filename <filename>', 'Set the name of the generated report file')
     .option('-v, --verbose', 'Enables verbose logging')
     .parse(process.argv);
 
@@ -39,7 +40,7 @@ const generateReportFilename = (url, fileExtension) => {
 
 const init = () => {
     console.log(picture());
-    const { sites, params, html, csv, verbose } = program;
+    const { sites, params, html, csv, filename, verbose } = program;
     exec('lighthouse --version', (error, stdout, stderr) => {
         if (stderr) {
             console.error(red(`\n    ERROR: No global installation of Google Lighthouse NPM CLI was found.\n    Please run: ${magenta('npm i -g lighthouse')}\n`));
@@ -54,7 +55,7 @@ const init = () => {
         console.log(white(`    Generating report types:\n    ---------------------------------------------------\n    ${green('✓')} JSON    ${html ? green('✓') : red('x')} HTML    ${csv ? green('✓') : red('x')} CSV\n\n\n    Processing ${cyan(sites.length)} URLs: \n    ---------------------------------------------------`));
         sites.map((url, index) => {
             url = url.match(/^https?:/) ? url : !url.startsWith('//') ? `https://${url}` : `https${url}`;
-            const reportName = generateReportFilename(url, 'json');
+            const reportName = filename ? `${filename}.json` : generateReportFilename(url, 'json');
             console.log(`    ${cyan(`${index + 1}.`)} ${white(`${reportName} - ${url}`)}`);
             const command = `"${url}" --output json ${html ? 'html' : ' '} ${csv ? 'csv' : ' '} --output-path=./${reportName} ${verbose ? '' : '--quiet'} --chrome-flags="--headless" ${params}`;
             exec(`lighthouse ${command}`);

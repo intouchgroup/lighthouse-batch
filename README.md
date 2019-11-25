@@ -24,13 +24,14 @@ Or using Command Prompt for Windows:<br/>
 
 ### Flags
 
-| Short Name | Long Name  | Effect                                | Example                                                 |   |
-|------------|------------|---------------------------------------|---------------------------------------------------------|---|
-| `-h`       | `--help`   | List all flags                        | `lighthouse-batch -h`                                   |   |
-| `-s`       | `--sites`  | Comma-delimited list of URLs to audit | `lighthouse-batch -s google.com,intouchsol.com`         |   |
-| `-t`       | `--html`   | Generates HTML reports                | `lighthouse-batch -t -s google.com`                     |   |
-| `-c`       | `--csv`    | Generates CSV reports                 | `lighthouse-batch -c -s google.com`                     |   |
-| `-p`       | `--params` | String to be passed to Lighthouse CLI | `lighthouse-batch -s google.com -p "--port 8080"`       |   |
-| `-v`       | `--verbose`| Enables verbose logging               | `lighthouse-batch -v -s google.com`                     |   |
+| Short Name | Long Name   | Effect                                | Example                                                 |   |
+|------------|-------------|---------------------------------------|---------------------------------------------------------|---|
+| `-h`       | `--help`    | List all flags                        | `lighthouse-batch -h`                                   |   |
+| `-s`       | `--sites`   | Comma-delimited list of URLs to audit | `lighthouse-batch -s google.com,intouchsol.com`         |   |
+| `-t`       | `--html`    | Generates HTML reports                | `lighthouse-batch -t -s google.com`                     |   |
+| `-c`       | `--csv`     | Generates CSV reports                 | `lighthouse-batch -c -s google.com`                     |   |
+| `-p`       | `--params`  | String to be passed to Lighthouse CLI | `lighthouse-batch -s google.com -p "--port 8080"`       |   |
+| `-f`       | `--filename`| Set the name of generated report file | `lighthouse-batch -s google.com -f "reportname"`        |   |
+| `-v`       | `--verbose` | Enables verbose logging               | `lighthouse-batch -v -s google.com`                     |   |
 
 **Note:** It does not matter if you use the short or long name for any flag, and flags may be passed in any order.
