@@ -1,6 +1,6 @@
 {
   "name": "@intouchgroup/lighthouse-batch",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "CLI for batch processing Google Lighthouse audits",
   "main": "cli.js",
   "bin": {
