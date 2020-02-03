@@ -78,7 +78,7 @@ A full list of available arguments with examples is presented below.
 
 First, make use of the [Lighthouse Auth Formatter](https://github.com/intouchgroup/lighthouse-auth-formatter) tool to encode your username and password. The encoded text should look similar to this:
 
-`--view --extra-headers="{\"Authorization\":\"Y29keS5wZXJzaW5nZXI6VGhpc1Bhc3N3b3JkMTIzXw==\"}"`
+`--extra-headers="{\"Authorization\":\"Y29keS5wZXJzaW5nZXI6VGhpc1Bhc3N3b3JkMTIzXw==\"}"`
 
 Next, use the encoded text as the value for the `-p` or `--params` argument. Make sure to *wrap the encoded text in single quotes*:
 
@@ -86,4 +86,4 @@ Next, use the encoded text as the value for the `-p` or `--params` argument. Mak
 
 Using our example encoded text above, the final command should look like this:
 
-`lighthouse-batch -s intouchsol.com -c -p '--view --extra-headers="{\"Authorization\":\"Y29keS5wZXJzaW5nZXI6VGhpc1Bhc3N3b3JkMTIzXw==\"}"'`
+`lighthouse-batch -s intouchsol.com -c -p '--extra-headers="{\"Authorization\":\"Y29keS5wZXJzaW5nZXI6VGhpc1Bhc3N3b3JkMTIzXw==\"}"'`
