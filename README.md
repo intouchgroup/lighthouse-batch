@@ -1,37 +1,89 @@
 ## @intouchgroup/lighthouse-batch
 
-CLI for batch processing Google Lighthouse audits
+Lighthouse Batch is a tool to run multiple Google Lighthouse reports concurrently.
+
+The tool makes multiple requests simultaneously, can handle HTTP or HTTPS domains, and is capable of testing sites which require Authentication.
 
 
 ### Installation
 
-Globally install this module and Google's Lighthouse module.<br/>
-&nbsp;&nbsp;`npm i -g lighthouse @intouchgroup/lighthouse-batch`
+You must have [NodeJS](https://nodejs.org/en/) version 12+ installed to use this module.
+
+To check what version of NodeJS you have, launch Terminal on Mac or Powershell on Windows and type `node -v`.
+
+Once you have NodeJS 12+, globally install the latest version of this module from Terminal or Powershell:
+
+`npm i -g @intouchgroup/lighthouse-batch`
+
+You can now run Lighthouse Batch from any folder on your computer using Terminal or Powershell.
 
 
 ### Usage
 
-Using Terminal for Mac or Command Prompt for Windows, navigate into the directory where you want your reports to be saved, then run the `lighthouse-batch` command to generate Google Lighthouse reports.
+When you open Terminal or Powershell, you will see a file path listed in the prompt. This is the current location of your Terminal or Powershell.
 
-Reports will be generated in the current working directory. For example, the following instructions will output to folder named "Reports" on the Desktop:
+You can change locations using the `cd FILE_PATH` command. `cd` stands for "change directory" (go to a different folder), and is how you navigate using Terminal or Powershell.
 
-1. Using Terminal for Mac:<br/>
-&nbsp;&nbsp;`cd ~/Desktop/Reports`<br/><br/>
-Or using Command Prompt for Windows:<br/>
-&nbsp;&nbsp;`cd Desktop/Reports`<br/><br/>
-2. `lighthouse-batch -s google.com,intouchsol.com`
+1. Using Terminal or Powershell, navigate to the folder where you want to save the Lighthouse Batch reports. For example: `cd Desktop/Reports`
+
+2. Now run the Lighthouse Batch tool from Terminal or Powershell with whatever *arguments* you want. For example: `lighthouse-batch -s intouchsol.com`
 
 
-### Flags
+### Arguments
 
-| Short Name | Long Name   | Effect                                | Example                                                 |   |
-|------------|-------------|---------------------------------------|---------------------------------------------------------|---|
-| `-h`       | `--help`    | List all flags                        | `lighthouse-batch -h`                                   |   |
-| `-s`       | `--sites`   | Comma-delimited list of URLs to audit | `lighthouse-batch -s google.com,intouchsol.com`         |   |
-| `-t`       | `--html`    | Generates HTML reports                | `lighthouse-batch -t -s google.com`                     |   |
-| `-c`       | `--csv`     | Generates CSV reports                 | `lighthouse-batch -c -s google.com`                     |   |
-| `-p`       | `--params`  | String to be passed to Lighthouse CLI | `lighthouse-batch -s google.com -p "--port 8080"`       |   |
-| `-f`       | `--filename`| Set the name of generated report file | `lighthouse-batch -s google.com -f "reportname"`        |   |
-| `-v`       | `--verbose` | Enables verbose logging               | `lighthouse-batch -v -s google.com`                     |   |
+Arguments are how we tell `lighthouse-batch` what to do. Some arguments are required, while others are completely optional. Arguments can be passed in any order, but the value must come right after the argument text. For example:
 
-**Note:** It does not matter if you use the short or long name for any flag, and flags may be passed in any order.
+`lighthouse-batch --argument "This is the value of the argument"`
+
+A full list of available arguments with examples is presented below.
+
+| Short name   | Long name          | What it does                                              |
+|--------------|--------------------|-----------------------------------------------------------|
+|  `-h`        |  `--help`          |  Shows all available arguments                            |
+|  `-s`        |  `--sites`         |  Comma-separated list of URLs to test                     |
+|  `-t`        |  `--html`          |  Generate HTML report                                     |
+|  `-c`        |  `--csv`           |  Generate CSV report                                      |
+|  `-p`        |  `--params`        |  Text to pass to Google's `lighthouse` tool               |
+|  `-f`        |  `--filename`      |  Manually set the name of the generated report            |
+|  `-v`        |  `--verbose`       |  Enables verbose logging                                  |
+
+
+### Examples
+
+<br>1. Generate CSV reports for multiple sites:
+
+`lighthouse-batch -s intouchsol.com,google.com -c`
+
+> Tests ht&#8203;tps://intouchsol.com and ht&#8203;tps://google.com
+
+<br><br>2. Generate HTML reports for multiple sites:
+
+`lighthouse-batch -s intouchsol.com,google.com -t`
+
+> Tests ht&#8203;tps://intouchsol.com and ht&#8203;tps://google.com
+
+<br><br>3. Generate a CSV report named "MyBestReportYet":
+
+`lighthouse-batch -s intouchsol.com -c -f "MyBestReportYet"`
+
+> Tests ht&#8203;tps://intouchsol.com
+
+<br><br>4. Use short or long names for arguments. These commands are exactly equivalent:
+
+`lighthouse-batch -s intouchsol.com -c -f "MyBestReportYet"`
+
+`lighthouse-batch --sites intouchsol.com --csv --filename "MyBestReportYet"`
+
+<br><br>5. Authentication is supported by passing encoded text to Google's `lighthouse` tool. We do this using the `-p` or `--params` argument.
+
+First, make use of the [Lighthouse Auth Formatter](https://github.com/intouchgroup/lighthouse-auth-formatter) tool to encode your username and password. The encoded text should look similar to this:
+
+`--view --extra-headers="{\"Authorization\":\"Y29keS5wZXJzaW5nZXI6VGhpc1Bhc3N3b3JkMTIzXw==\"}"`
+
+Next, use the encoded text as the value for the `-p` or `--params` argument. Make sure to *wrap the encoded text in single quotes*:
+
+`lighthouse-batch -s intouchsol.com -c -p 'ENCODED_TEXT_GOES_HERE'`
+
+Using our example encoded text above, the final command should look like this:
+
+`lighthouse-batch -s intouchsol.com -c -p '--view --extra-headers="{\"Authorization\":\"Y29keS5wZXJzaW5nZXI6VGhpc1Bhc3N3b3JkMTIzXw==\"}"'`
