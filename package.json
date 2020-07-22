@@ -1,6 +1,6 @@
 {
   "name": "@intouchgroup/lighthouse-batch",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "CLI for batch processing Google Lighthouse audits",
   "main": "cli.js",
   "bin": {
@@ -22,9 +22,7 @@
   "license": "MIT",
   "dependencies": {
     "chalk": "3.0.0",
-    "commander": "4.0.1"
-  },
-  "peerDependencies": {
-    "lighthouse": "6.0.0"
+    "commander": "4.0.1",
+    "lighthouse": "6.1.1"
   }
 }
