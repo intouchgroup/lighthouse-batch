@@ -76,7 +76,7 @@ A full list of available arguments with examples is presented below.
 
 <br><br>5. Authentication is supported by passing encoded text to Google's `lighthouse` tool. We do this using the `-p` or `--params` argument.
 
-First, make use of the [Lighthouse Auth Formatter](https://github.com/intouchgroup/lighthouse-auth-formatter) tool to encode your username and password. The encoded text should look similar to this:
+First, make use of the [Lighthouse Auth Formatter](https://seo.intouchg.co/lighthouse-auth-formatter/) tool to encode your username and password. The encoded text should look similar to this:
 
 `--extra-headers="{\"Authorization\":\"Basic Y29keS5wZXJzaW5nZXI6VGhpc1Bhc3N3b3JkMTIzXw==\"}"`
 
